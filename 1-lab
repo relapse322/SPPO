@@ -1,0 +1,38 @@
+#include <iostream>
+#include <math.h>
+using namespace std;
+float F1(int x)
+{
+	float p = 0;
+	if (x >= 0)
+	{
+		p = 5*x + 7;
+	}
+	else
+	{
+		p = 1 / x;
+	}
+	return p;
+}
+void F2(int &x)
+{
+	x = F1(x);
+}
+int main()
+{
+	int a, b;
+	cin >> a >> b;
+	for (int i = a; i < b; i++)
+	{
+		float k = F1(i);
+		cout << "F1= " << k << "i= " << i  << endl;
+	}
+	for (int i = a; i < b; i++)
+	{
+		cout << "i= " << i << "; ";
+		F2(i);
+		cout << "i' = " << i << endl; 
+	}
+	system("pause");
+	return 0;
+}
