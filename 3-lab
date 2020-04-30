@@ -1,0 +1,95 @@
+#include <iostream>
+#include <math.h>
+using namespace std;
+
+struct Node {
+
+	double x;
+	int y;
+	Node* Next, * Pr;
+};
+
+struct List {
+	Node* Head, * Pt;
+
+	List() :Head(NULL), Pt(NULL) {}
+	void add(double); 
+	void f();
+};
+struct List2 {
+	Node* Head, * Pt;
+
+	List2() :Head(NULL), Pt(NULL) {}
+	void add2(int);
+	void f2();
+
+};
+void List::add(double value) {
+	Node* temp = new Node;
+	temp->x = value;
+	temp->Next = NULL;
+	if (!Head) {
+		temp->Pr = NULL;
+		Head = Pt = temp;
+	}
+	else {
+		temp->Pr = Pt;
+		Pt->Next = temp;
+		Pt = temp;
+	}
+}
+void List::f() {
+	Node* temp = Head;
+	while (temp) {
+		cout << temp->x << " ";
+		temp = temp->Next;
+	}
+}
+void List2::add2(int value) {
+	Node* temp = new Node;
+	temp->y = value;
+	temp->Next = NULL;
+	if (!Head) {
+		temp->Pr = NULL;
+		Head = Pt = temp;
+	}
+	else {
+		temp->Pr = Pt;
+		Pt->Next = temp;
+		Pt = temp;
+	}
+}
+void List2::f2() {
+	Node* temp = Head;
+	while (temp) {
+		cout << temp->y << " ";
+		temp = temp->Next;
+	}
+}
+
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	List L;
+	List2 L2;
+
+	int n;
+	double h;
+	cout << "Введите количество чисел" << endl;
+	cin >> n;
+	cout << "Числа: " << endl;
+	for (int i = 0; i < n; i++)
+	{
+		cin >> h;
+		L.add(h);
+		L2.add2(h);
+
+	}
+	cout << "Первый список" << endl << endl;
+	L.f();
+	cout << endl;
+	cout << "Второй список" << endl << endl;
+	L2.f2();
+	cout << endl;
+
+}
