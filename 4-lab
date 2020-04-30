@@ -1,0 +1,141 @@
+#include <iostream>
+using namespace std;
+struct Tree
+{
+	int value;
+	Tree* right;
+	Tree* left;
+	Tree()
+	{
+		value = -1;
+		right = NULL;
+		left = NULL;
+	}
+};
+struct ListElement
+{
+	int value;
+	ListElement* pointer;
+	ListElement()
+	{
+		value = -1;
+		pointer = NULL;
+	}
+};
+void Input(Tree*& a, int x)
+{
+	if (a == NULL)
+	{
+		a = new Tree();
+		a->value = x;
+	}
+	else
+		if (a->value > x)
+		{
+			Input(a->left, x);
+		}
+		else
+			if (a->value < x)
+			{
+				Input(a->right, x);
+			}
+}
+void Output(Tree* a)
+{
+	if (a != NULL)
+	{
+		Output(a->left);
+		cout << a->value << " ";
+		Output(a->right);
+	}
+
+}
+void Detach(Tree* root, Tree* a)
+{
+	if (root == NULL || a == NULL) { return; }
+	else if (root->left == a) { root->left = NULL; }
+	else if (root->right == a) { root->right = NULL; }
+	{
+		Detach(root->left, a);
+		Detach(root->right, a);
+	}
+}
+void Remove(Tree* a)
+{
+	if (a != NULL)
+	{
+		Remove(a->left);
+		Remove(a->right);
+		delete a;
+	}
+}
+Tree* Find(Tree* a, int x)
+{
+	Tree* result = NULL;
+	if (a == NULL) { result = NULL; }
+	else if (a->value == x) { result = a; }
+	else
+	{
+		result = Find(a->left, x);
+		if (result == NULL) { result = Find(a->right, x); }
+	}
+	return result;
+}
+void List(ListElement*& first, Tree* a, ListElement*& elem)
+{
+	if (a)
+	{
+		List(first, a->left, elem);
+		ListElement* p = new ListElement();
+		p->value = a->value;
+		if (elem == NULL)
+		{
+			first = p;
+			elem = p;
+		}
+		else
+		{
+			elem->pointer = p;
+			elem = p;
+		}
+		List(first, a->right, elem);
+	}
+}
+
+void OutputList(ListElement* k) {
+	while (k != NULL) {
+		cout << k->value << " ";
+		k = k->pointer;
+	}
+	cout << endl;
+}
+int main() {
+	setlocale(LC_ALL, "Russian");
+	Tree* root = NULL;
+	ListElement* number = NULL;
+	int N = 0, el;
+	cout << "Введите количество чисел " << endl;
+	cin >> N;
+	cout << "Введите числа " << endl;
+	for (int i = 0; i < N; i++) {
+		cin >> el;
+		Input(root, el);
+	}
+	Output(root);
+	cout << endl;
+	int n;
+	cout << "Введите число для удаления поддерева" << endl;
+	cin >> n;
+	Tree* a = Find(root, n);
+	Detach(root, a);
+	Remove(a);
+	Output(root);
+	cout << endl;
+	cout << "Список ";
+	ListElement* Nch = NULL;
+	List(number, root, Nch);
+	OutputList(number);
+	return 0;
+
+
+}
